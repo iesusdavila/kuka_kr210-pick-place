@@ -6,7 +6,7 @@
 
   <!-- load the arm controller -->
   <rosparam file="$(find kr210_gazebo)/config/kr210_arm_controller.yaml" command="load" />
-  <node name="kuka_kr10_controller_spawner" pkg="controller_manager" type="spawner" args="arm_controller" />
+  <node name="kuka_kr210_controller_spawner" pkg="controller_manager" type="spawner" args="arm_controller" />
 
   <!-- load the gripper controller -->
   <rosparam file="$(find kr210_gazebo)/config/gripper_controller_robotiq.yaml"/>
