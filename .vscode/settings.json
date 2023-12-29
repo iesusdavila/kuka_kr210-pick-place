@@ -1,0 +1,14 @@
+{
+    "python.autoComplete.extraPaths": [
+        "/home/robots-irda/kr210_ws/devel/lib/python3/dist-packages",
+        "/home/robots-irda/robots_ws/devel/lib/python3/dist-packages",
+        "/home/robots-irda/catkin_ws/devel/lib/python3/dist-packages",
+        "/opt/ros/noetic/lib/python3/dist-packages"
+    ],
+    "python.analysis.extraPaths": [
+        "/home/robots-irda/kr210_ws/devel/lib/python3/dist-packages",
+        "/home/robots-irda/robots_ws/devel/lib/python3/dist-packages",
+        "/home/robots-irda/catkin_ws/devel/lib/python3/dist-packages",
+        "/opt/ros/noetic/lib/python3/dist-packages"
+    ]
+}

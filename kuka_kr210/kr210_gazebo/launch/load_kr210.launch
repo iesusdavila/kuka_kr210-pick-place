@@ -1,4 +1,4 @@
 <?xml version="1.0"?>
 <launch>
-  <param name="robot_description" command="$(find xacro)/xacro --inorder '$(find kr210_gazebo)/urdf/gazebo.xacro'" />
+  <param name="robot_description" command="$(find xacro)/xacro '$(find kr210_gazebo)/urdf/gazebo_2f.xacro'" />
 </launch>

@@ -1,0 +1,41 @@
+{
+  "configurations": [
+    {
+      "browse": {
+        "databaseFilename": "${default}",
+        "limitSymbolsToIncludedHeaders": false
+      },
+      "includePath": [
+        "/home/robots-irda/robots_ws/devel/include/**",
+        "/home/robots-irda/catkin_ws/devel/include/**",
+        "/opt/ros/noetic/include/**",
+        "/home/robots-irda/kr210_ws/devel/include/**",
+        "/home/robots-irda/catkin_ws/src/action_manager_iesus/include/**",
+        "/home/robots-irda/catkin_ws/src/aruco_ros/aruco/include/**",
+        "/home/robots-irda/catkin_ws/src/aruco_broadcaster/include/**",
+        "/home/robots-irda/catkin_ws/src/aruco_ros/aruco_ros/include/**",
+        "/home/robots-irda/kr210_ws/src/Gazebo_utils/ros_controllers/force_torque_sensor_controller/include/**",
+        "/home/robots-irda/kr210_ws/src/Gazebo_utils/gazebo-pkgs/gazebo_grasp_plugin/include/**",
+        "/home/robots-irda/kr210_ws/src/Gazebo_utils/gazebo-pkgs/gazebo_state_plugins/include/**",
+        "/home/robots-irda/kr210_ws/src/Gazebo_utils/gazebo-pkgs/gazebo_test_tools/include/**",
+        "/home/robots-irda/kr210_ws/src/Gazebo_utils/gazebo-pkgs/gazebo_version_helpers/include/**",
+        "/home/robots-irda/kr210_ws/src/Gazebo_utils/gazebo-pkgs/gazebo_world_plugin_loader/include/**",
+        "/home/robots-irda/kr210_ws/src/Gazebo_utils/ros_controllers/gripper_action_controller/include/**",
+        "/home/robots-irda/kr210_ws/src/Gazebo_utils/ros_controllers/imu_sensor_controller/include/**",
+        "/home/robots-irda/kr210_ws/src/kuka_experimental/kuka_eki_hw_interface/include/**",
+        "/home/robots-irda/kr210_ws/src/kuka_experimental/kuka_rsi_hw_interface/include/**",
+        "/home/robots-irda/kr210_ws/src/Gazebo_utils/general-message-pkgs/object_msgs_tools/include/**",
+        "/home/robots-irda/kr210_ws/src/Gazebo_utils/roboticsgroup_gazebo_plugins/include/**",
+        "/home/robots-irda/kr210_ws/src/roboticsgroup_upatras_gazebo_plugins/include/**",
+        "/home/robots-irda/catkin_ws/src/fmauch_universal_robot/ur_kinematics/include/**",
+        "/usr/include/**"
+      ],
+      "name": "ROS",
+      "intelliSenseMode": "gcc-x64",
+      "compilerPath": "/usr/bin/gcc",
+      "cStandard": "gnu11",
+      "cppStandard": "c++14"
+    }
+  ],
+  "version": 4
+}

@@ -8,5 +8,7 @@
   <rosparam file="$(find kr210_gazebo)/config/kr210_arm_controller.yaml" command="load" />
   <node name="kuka_kr10_controller_spawner" pkg="controller_manager" type="spawner" args="arm_controller" />
 
-    
+  <!-- load the gripper controller -->
+  <rosparam file="$(find kr210_gazebo)/config/gripper_controller_robotiq.yaml"/>
+  <node name="Gripper_Spawner" pkg="controller_manager" type="spawner" args="gripper"/>
 </launch>

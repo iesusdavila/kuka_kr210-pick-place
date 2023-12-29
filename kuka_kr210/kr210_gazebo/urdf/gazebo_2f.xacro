@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<robot name="kuka_kr210_gripper" xmlns:xacro="http://ros.org/wiki/xacro">
+    
+  <xacro:include filename="$(find kr210_gazebo)/urdf/gazebo.xacro"/>
+    
+  <xacro:include filename="$(find robotiq_2f_85_description)/urdf/robotiq_2F_85.xacro"/>
+
+  <xacro:property name="PI" value="3.1415926535897931"/>
+
+  <joint name="kuka_joint_gripper_support" type="fixed">
+    <parent link="tool0"/>
+    <child link="coupling_link"/>
+    <origin rpy="0 0 0" xyz="0 0 -0.003"/>
+  </joint>
+  
+  <xacro:include filename="$(find kr210_gazebo)/urdf/transmission_2f.xacro"/>
+  
+</robot>
