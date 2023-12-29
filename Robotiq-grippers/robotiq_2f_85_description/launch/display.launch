@@ -1,0 +1,11 @@
+<launch>
+  <arg name="gui" default="True" />
+  <param name="use_gui" value="$(arg gui)"/>
+  
+  <param name="robot_description" command="$(find xacro)/xacro $(find robotiq_2f_85_description)/urdf/robotiq_2F_85.xacro" />  
+  
+  <node name="joint_state_publisher_gui" pkg="joint_state_publisher_gui" type="joint_state_publisher_gui" />
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find robotiq_2f_85_description)/visualize.rviz" required="true" />
+  
+</launch>

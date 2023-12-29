@@ -1,0 +1,207 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <xacro:include filename="$(find robotiq_2f_85_description)/urdf/robotiq_arg2f.xacro" />
+  <xacro:include filename="$(find robotiq_2f_85_description)/urdf/robotiq_arg2f_transmission.xacro" />
+
+  
+  <xacro:macro name="outer_knuckle" params="prefix fingerprefix stroke">
+    <link name="${prefix}${fingerprefix}_outer_knuckle">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://robotiq_2f_85_description/meshes/visual/robotiq_arg2f_85_outer_knuckle.dae" scale="0.001 0.001 0.001"/>
+        </geometry>
+        <material name="">
+          <color rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+        </material>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://robotiq_2f_85_description/meshes/collision/robotiq_arg2f_85_outer_knuckle.dae" scale="0.001 0.001 0.001"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <mass value="0.1" />
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <inertia ixx="0.03" iyy="0.03" izz="0.03" ixy="0.0" ixz="0.0" iyz="0.0" />
+      </inertial>
+    </link>
+  </xacro:macro>
+
+  <xacro:macro name="outer_finger" params="prefix fingerprefix stroke">
+    <link name="${prefix}${fingerprefix}_outer_finger">
+      <inertial>
+        <mass value="0.1" />
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <inertia ixx="0.03" iyy="0.03" izz="0.03" ixy="0.0" ixz="0.0" iyz="0.0" />
+      </inertial>
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://robotiq_2f_85_description/meshes/visual/robotiq_arg2f_85_outer_finger.dae" scale="0.001 0.001 0.001"/>
+        </geometry>
+        <material name="">
+          <color rgba="0.1 0.1 0.1 1" />
+        </material>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://robotiq_2f_85_description/meshes/collision/robotiq_arg2f_85_outer_finger.dae" scale="0.001 0.001 0.001"/>
+        </geometry>
+      </collision>
+    </link>
+  </xacro:macro>
+
+  <xacro:macro name="inner_knuckle" params="prefix fingerprefix stroke">
+    <link name="${prefix}${fingerprefix}_inner_knuckle">
+      <inertial>
+        <mass value="0.1" />
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <inertia ixx="0.03" iyy="0.03" izz="0.03" ixy="0.0" ixz="0.0" iyz="0.0" />
+      </inertial>
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://robotiq_2f_85_description/meshes/visual/robotiq_arg2f_85_inner_knuckle.dae" scale="0.001 0.001 0.001"/>
+        </geometry>
+        <material name="">
+          <color rgba="0.1 0.1 0.1 1" />
+        </material>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://robotiq_2f_85_description/meshes/collision/robotiq_arg2f_85_inner_knuckle.dae" scale="0.001 0.001 0.001"/>
+        </geometry>
+      </collision>
+    </link>
+  </xacro:macro>
+
+  <xacro:macro name="inner_finger" params="prefix fingerprefix stroke">
+    <link name="${prefix}${fingerprefix}_inner_finger">
+      <inertial>
+        <mass value="0.1" />
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <inertia ixx="0.03" iyy="0.03" izz="0.03" ixy="0.0" ixz="0.0" iyz="0.0" />
+      </inertial>
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://robotiq_2f_85_description/meshes/visual/robotiq_arg2f_85_inner_finger.dae" scale="0.001 0.001 0.001"/>
+        </geometry>
+        <material name="">
+          <color rgba="0.1 0.1 0.1 1" />
+        </material>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://robotiq_2f_85_description/meshes/collision/robotiq_arg2f_85_inner_finger.dae" scale="0.001 0.001 0.001" />
+        </geometry>
+      </collision>
+    </link>
+  </xacro:macro>
+
+   <!-- Finger pad link, the default are the "big pads" with rubber-->
+  <xacro:macro name="inner_finger_pad" params="prefix fingerprefix">
+    <link name="${prefix}${fingerprefix}_inner_finger_pad">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <box size="0.022 0.00635 0.0375"/>
+        </geometry>
+        <material name="">
+          <color rgba="0.9 0.9 0.9 1" />
+        </material>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+           <box size="0.022 0.00635 0.0375"/>
+        </geometry>
+        <material name="">
+          <color rgba="0.9 0.0 0.0 1" />
+        </material>
+      </collision>
+    </link>
+  </xacro:macro>
+
+  <xacro:macro name="outer_finger_joint" params="prefix fingerprefix">
+    <joint name="${prefix}${fingerprefix}_outer_finger_joint" type="fixed">
+      <origin xyz="0 0.0315 -0.0041" rpy="0 0 0"/>
+      <parent link="${prefix}${fingerprefix}_outer_knuckle" />
+      <child link="${prefix}${fingerprefix}_outer_finger" />
+      <axis xyz="1 0 0" />
+    </joint>
+  </xacro:macro>
+
+  <xacro:macro name="inner_knuckle_joint" params="prefix fingerprefix reflect">
+    <joint name="${prefix}${fingerprefix}_inner_knuckle_joint" type="revolute">
+      <!-- <origin xyz="0 ${reflect * -0.0127} 0.06142" rpy="${pi / 2 + .725} 0 ${(reflect - 1) * pi / 2}" /> -->
+      <origin xyz="0 ${reflect * -0.0127} 0.06142" rpy="0 0 ${(1 + reflect) * pi / 2}"/>
+      <parent link="${prefix}robotiq_arg2f_base_link" />
+      <child link="${prefix}${fingerprefix}_inner_knuckle" />
+      <axis xyz="1 0 0" />
+      <limit lower="0" upper="0.8757" velocity="2.0" effort="1000" />
+      <mimic joint="${prefix}finger_joint" multiplier="1" offset="0" />
+    </joint>
+  </xacro:macro>
+
+  <xacro:macro name="inner_finger_joint" params="prefix fingerprefix">
+    <joint name="${prefix}${fingerprefix}_inner_finger_joint" type="revolute">
+      <origin xyz="0 0.0061 0.0471" rpy="0 0 0"/>
+      <parent link="${prefix}${fingerprefix}_outer_finger" />
+      <child link="${prefix}${fingerprefix}_inner_finger" />
+      <axis xyz="1 0 0" />
+      <limit lower="-0.8757" upper="0.8757" velocity="2.0" effort="1000" />
+      <mimic joint="${prefix}finger_joint" multiplier="-1" offset="0" />
+    </joint>
+  </xacro:macro>
+
+  <xacro:macro name="inner_finger_pad_joint" params="prefix fingerprefix">
+    <joint name="${prefix}${fingerprefix}_inner_finger_pad_joint" type="fixed">
+      <origin xyz="0 -0.0220203446692936 0.03242" rpy="0 0 0"/>
+      <parent link="${prefix}${fingerprefix}_inner_finger" />
+      <child link="${prefix}${fingerprefix}_inner_finger_pad" />
+      <axis xyz="0 0 1" />
+    </joint>
+  </xacro:macro>
+
+
+
+  <xacro:macro name="finger_joint" params="prefix">
+    <joint name="${prefix}finger_joint" type="revolute">
+      <origin xyz="0 -0.0306011 0.054904" rpy="0 0 ${pi}"/>
+      <parent link="${prefix}robotiq_arg2f_base_link" />
+      <child link="${prefix}left_outer_knuckle" />
+      <axis xyz="1 0 0" />
+      <limit lower="0" upper="0.8" velocity="2.0" effort="1000" />
+    </joint>
+    <xacro:finger_joints prefix="${prefix}" fingerprefix="left" reflect="1.0"/>
+  </xacro:macro>
+
+  <xacro:macro name="right_outer_knuckle_joint" params="prefix">
+    <joint name="${prefix}right_outer_knuckle_joint" type="revolute">
+      <origin xyz="0 0.0306011 0.054904" rpy="0 0 0"/>
+      <parent link="${prefix}robotiq_arg2f_base_link" />
+      <child link="${prefix}right_outer_knuckle" />
+      <axis xyz="1 0 0" />
+      <limit lower="0" upper="0.81" velocity="2.0" effort="1000" />
+      <mimic joint="${prefix}finger_joint" multiplier="1" offset="0" />
+    </joint>
+    <xacro:finger_joints prefix="${prefix}" fingerprefix="right" reflect="-1.0"/>
+  </xacro:macro>
+
+  <!-- Initialization of all joints and links -->
+  <xacro:macro name="robotiq_arg2f_85" params="prefix">
+    <xacro:robotiq_arg2f_base_link prefix="${prefix}"/>
+    <xacro:finger_links prefix="${prefix}" fingerprefix="left" stroke="85"/>
+    <xacro:finger_links prefix="${prefix}" fingerprefix="right" stroke="85"/>
+    <xacro:finger_joint prefix="${prefix}"/>
+    <xacro:right_outer_knuckle_joint prefix="${prefix}"/>
+    <xacro:robotiq_arg2f_transmission prefix="${prefix}"/>
+  </xacro:macro>
+</robot>

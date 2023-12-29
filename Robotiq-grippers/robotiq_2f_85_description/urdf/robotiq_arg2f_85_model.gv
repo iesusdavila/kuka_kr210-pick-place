@@ -1,0 +1,38 @@
+digraph G {
+node [shape=box];
+"coupling_link" [label="coupling_link"];
+"robotiq_arg2f_base_link" [label="robotiq_arg2f_base_link"];
+"left_outer_knuckle" [label="left_outer_knuckle"];
+"left_outer_finger" [label="left_outer_finger"];
+"left_inner_finger" [label="left_inner_finger"];
+"left_inner_finger_pad" [label="left_inner_finger_pad"];
+"left_inner_knuckle" [label="left_inner_knuckle"];
+"right_inner_knuckle" [label="right_inner_knuckle"];
+"right_outer_knuckle" [label="right_outer_knuckle"];
+"right_outer_finger" [label="right_outer_finger"];
+"right_inner_finger" [label="right_inner_finger"];
+"right_inner_finger_pad" [label="right_inner_finger_pad"];
+node [shape=ellipse, color=blue, fontcolor=blue];
+"coupling_link" -> "coupling_joint" [label="xyz: 0 0 0.011 \nrpy: 0 -0 0"]
+"coupling_joint" -> "robotiq_arg2f_base_link"
+"robotiq_arg2f_base_link" -> "finger_joint" [label="xyz: 0 -0.0306011 0.054904 \nrpy: 0 -0 -3.14159"]
+"finger_joint" -> "left_outer_knuckle"
+"left_outer_knuckle" -> "left_outer_finger_joint" [label="xyz: 0 0.0315 -0.0041 \nrpy: 0 -0 0"]
+"left_outer_finger_joint" -> "left_outer_finger"
+"left_outer_finger" -> "left_inner_finger_joint" [label="xyz: 0 0.0061 0.0471 \nrpy: 0 -0 0"]
+"left_inner_finger_joint" -> "left_inner_finger"
+"left_inner_finger" -> "left_inner_finger_pad_joint" [label="xyz: 0 -0.0220203 0.03242 \nrpy: 0 -0 0"]
+"left_inner_finger_pad_joint" -> "left_inner_finger_pad"
+"robotiq_arg2f_base_link" -> "left_inner_knuckle_joint" [label="xyz: 0 -0.0127 0.06142 \nrpy: 0 -0 -3.14159"]
+"left_inner_knuckle_joint" -> "left_inner_knuckle"
+"robotiq_arg2f_base_link" -> "right_inner_knuckle_joint" [label="xyz: 0 0.0127 0.06142 \nrpy: 0 -0 0"]
+"right_inner_knuckle_joint" -> "right_inner_knuckle"
+"robotiq_arg2f_base_link" -> "right_outer_knuckle_joint" [label="xyz: 0 0.0306011 0.054904 \nrpy: 0 -0 0"]
+"right_outer_knuckle_joint" -> "right_outer_knuckle"
+"right_outer_knuckle" -> "right_outer_finger_joint" [label="xyz: 0 0.0315 -0.0041 \nrpy: 0 -0 0"]
+"right_outer_finger_joint" -> "right_outer_finger"
+"right_outer_finger" -> "right_inner_finger_joint" [label="xyz: 0 0.0061 0.0471 \nrpy: 0 -0 0"]
+"right_inner_finger_joint" -> "right_inner_finger"
+"right_inner_finger" -> "right_inner_finger_pad_joint" [label="xyz: 0 -0.0220203 0.03242 \nrpy: 0 -0 0"]
+"right_inner_finger_pad_joint" -> "right_inner_finger_pad"
+}

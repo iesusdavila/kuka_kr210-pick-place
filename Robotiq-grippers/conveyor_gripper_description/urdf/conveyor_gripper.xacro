@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<robot name="conveyor_gripper_model" xmlns:xacro="http://ros.org/wiki/xacro">
+  
+  
+  <link name="conveyor_gripper">
+    <visual>
+      <origin xyz="-0.117 0.045 0.393" rpy="0 3.1416 3.1416" />
+      <geometry>
+        <mesh filename="package://conveyor_gripper_description/meshes/conveyor_gripper_m.stl" />
+      </geometry>
+      <material name="">
+        <color rgba="0.1 0.1 0.1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.117 0.045 0.393" rpy="0 3.1416 3.1416" />
+      <geometry>
+          <mesh filename="package://conveyor_gripper_description/meshes/conveyor_gripper_m.stl" />
+      </geometry>
+    </collision>
+  </link>
+ 
+  <joint name="conveyor_joint" type="fixed">
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <parent link="tcp" />
+    <child link="conveyor_gripper" />
+  </joint>
+
+
+  <!-- end effect point -->
+  <joint name="end_effect_point" type="fixed">
+    <origin rpy="0 0 0" xyz="0 -0.050 0.200"/>
+    <parent link="tcp"/>
+    <child link="end_effect_point"/>
+  </joint>
+  <!-- end effect point -->
+  <link name="end_effect_point">
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <box size="0.01 0.01 0.01"/>
+      </geometry>
+      <material name="">
+        <color rgba="0.8 0.0 0.0 1.0"/>
+      </material>
+    </visual>
+    <inertial>
+      <origin rpy="0 0 0" xyz="0.0 0.0 0.0"/>
+      <mass value="0.001"/>
+      <inertia ixx="1.0e-06" ixy="0.0" ixz="0.0" iyy="1.0e-06" iyz="0.0" izz="1.0e-06"/>
+    </inertial>
+  </link>
+
+
+</robot>
