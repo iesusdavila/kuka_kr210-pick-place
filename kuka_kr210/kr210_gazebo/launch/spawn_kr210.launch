@@ -8,7 +8,7 @@
         output="screen" respawn="false"
         args="-urdf
               -param robot_description
-              -model kr10
+              -model kr210
               -x 0.0
               -y 0.0
               -z 0.0
