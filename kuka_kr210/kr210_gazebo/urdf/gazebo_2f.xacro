@@ -8,7 +8,7 @@
   <joint name="kuka_joint_gripper_support" type="fixed">
     <parent link="tool0"/>
     <child link="coupling_link"/>
-    <origin rpy="0 0 0" xyz="0 0 -0.003"/>
+    <origin rpy="0 0 0" xyz="0 0 0.01"/>
   </joint>
   
   <xacro:include filename="$(find kr210_gazebo)/urdf/transmission_2f.xacro"/>
