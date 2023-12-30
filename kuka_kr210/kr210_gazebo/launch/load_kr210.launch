@@ -1,4 +1,8 @@
 <?xml version="1.0"?>
 <launch>
-  <param name="robot_description" command="$(find xacro)/xacro '$(find kr210_gazebo)/urdf/gazebo_2f.xacro'" />
+  <arg name="gripper_2f" default="false" />
+  <arg name="camera" default="false" />
+  
+  <param name="robot_description" command="$(find xacro)/xacro '$(find kr210_gazebo)/urdf/kr210_main.xacro' 
+  camera:=$(arg camera) gripper_2f:=$(arg gripper_2f)"/>
 </launch>

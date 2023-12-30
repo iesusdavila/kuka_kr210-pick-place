@@ -1,8 +1,6 @@
 <?xml version="1.0" ?>
 <robot name="kuka_kr210_gripper" xmlns:xacro="http://ros.org/wiki/xacro">
-    
-  <xacro:include filename="$(find kr210_gazebo)/urdf/gazebo.xacro"/>
-    
+        
   <xacro:include filename="$(find robotiq_2f_85_description)/urdf/robotiq_2F_85.xacro"/>
 
   <xacro:property name="PI" value="3.1415926535897931"/>

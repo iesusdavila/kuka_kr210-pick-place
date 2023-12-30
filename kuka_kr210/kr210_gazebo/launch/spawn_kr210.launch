@@ -1,7 +1,13 @@
 <?xml version="1.0"?>
 <launch>  
+  <arg name="gripper_2f" default="false" />
+  <arg name="camera" default="false" />
+
   <!-- send robot urdf to ROS param server -->
-  <include file="$(find kr210_gazebo)/launch/load_kr210.launch" />
+  <include file="$(find kr210_gazebo)/launch/load_kr210.launch" > 
+    <arg name="camera" value="$(arg camera)"/>
+    <arg name="gripper_2f" value="$(arg gripper_2f)"/>
+  </include>
 
   <!-- push robot_description to factory and spawn robot in gazebo -->
   <node name="spawn_gazebo_model" pkg="gazebo_ros" type="spawn_model" 
@@ -20,6 +26,8 @@
   <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
 
   <!-- init and start Gazebo ros_control interface -->
-  <include file="$(find kr210_gazebo)/launch/kr210_control.launch"/>
+  <include file="$(find kr210_gazebo)/launch/kr210_control.launch">
+    <arg name="gripper_2f" value="$(arg gripper_2f)"/>
+  </include>
   
 </launch>
