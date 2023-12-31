@@ -1,0 +1,28 @@
+<?xml version="1.0" ?>
+<robot name="red_cube">
+  <link name="base_link">
+    <inertial>
+      <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 0.0"/>
+      <mass value="0.1"/>
+      <inertia ixx="4.166666666666668e-05" ixy="0.0" ixz="0.0" iyy="4.166666666666668e-05" iyz="0.0" izz="4.166666666666668e-05"/>
+    </inertial>
+    <visual>
+      <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 0.025"/>
+      <geometry>
+        <mesh filename="package://kr210_description/meshes/boxes/box.stl" scale="0.005 0.005 0.005"/>
+      </geometry>
+      <material name="red">
+        <color rgba="1 0 0 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 0.025"/>
+      <geometry>
+        <mesh filename="package://kr210_description/meshes/boxes/box.stl" scale="0.005 0.005 0.005"/>
+      </geometry>
+    </collision>
+  </link>
+  <gazebo reference="base_link">
+    <material>Gazebo/Red</material>
+  </gazebo>
+</robot>
