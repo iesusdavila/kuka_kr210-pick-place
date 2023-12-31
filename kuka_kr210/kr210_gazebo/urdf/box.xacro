@@ -1,0 +1,38 @@
+<?xml version="1.0" ?>
+
+<robot name="box" xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <joint name="box_joint" type="fixed">
+        <parent link="world"/>
+        <child link="box_link"/>
+        <origin xyz="1.0 0.5 0.0" rpy="0.0 0.0 0.0"/>
+  </joint>
+
+  <link name="box_link">
+    <inertial>
+      <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 0.0"/>
+      <mass value="0.1"/>
+      <inertia ixx="4.166666666666668e-05" ixy="0.0" ixz="0.0" iyy="4.166666666666668e-05" iyz="0.0" izz="4.166666666666668e-05"/>
+    </inertial>
+    <visual>
+      <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 0.025"/>
+      <geometry>
+        <mesh filename="package://kr210_description/meshes/boxes/box.stl" scale="0.005 0.005 0.0025"/>
+      </geometry>
+      <material name="black">
+        <color rgba="0 0 0 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 0.025"/>
+      <geometry>
+        <mesh filename="package://kr210_description/meshes/boxes/box.stl" scale="0.005 0.005 0.0025"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <gazebo reference="box_link">
+    <material>Gazebo/Black</material>
+  </gazebo>
+
+</robot>
