@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import rospy, tf, rospkg
+import rospy, tf, rospkg, random
 from gazebo_msgs.srv import DeleteModel, SpawnModel, GetModelState
 from geometry_msgs.msg import Quaternion, Pose, Point
 from gazebo_conveyor.srv import ConveyorBeltControl  # Import the correct service definition
@@ -23,71 +23,74 @@ class BoxSpawner():
     def __init__(self):
         self.rospack = rospkg.RosPack()
         self.path = self.rospack.get_path('kr210_gazebo')+"/urdf/"
-        self.cubes = []
-        self.cubes.append(self.path+"red_cube.urdf")
-        self.cubes.append(self.path+"green_cube.urdf")
-        self.cubes.append(self.path+"blue_cube.urdf")
-        self.col = 0
+        self.boxes = []
+        self.name_box = None
+        self.boxes.append(self.path+"red_cube.urdf")
+        self.boxes.append(self.path+"green_cube.urdf")
+        self.boxes.append(self.path+"blue_cube.urdf")
 
         self.sm = rospy.ServiceProxy("/gazebo/spawn_urdf_model", SpawnModel)
         self.dm = rospy.ServiceProxy("/gazebo/delete_model", DeleteModel)
         self.ms = rospy.ServiceProxy("/gazebo/get_model_state", GetModelState)
 
     def checkModel(self):
-        res = self.ms("cube", "world")
+        if self.name_box is None:
+            return False  
+        res = self.ms(self.name_box, "world")
         return res.success
 
     def getPositionX(self):
-        res = self.ms("cube", "world")
+        if self.name_box is None:
+            return None
+        res = self.ms(self.name_box, "world")
         return res.pose.position.x
 
     def getPositionZ(self):
-        res = self.ms("cube", "world")
+        if self.name_box is None:
+            return None
+        res = self.ms(self.name_box, "world")
         return res.pose.position.z
 
     def spawnModel(self):
-        cube = self.cubes[self.col]
-        with open(cube,"r") as f:
+        box = random.choice(self.boxes)  
+        with open(box,"r") as f:
             cube_urdf = f.read()
         
         quat = tf.transformations.quaternion_from_euler(0, 0, 0)
         orient = Quaternion(quat[0], quat[1], quat[2], quat[3])
-        pose = Pose(Point(x=0.8, y=-2.5, z=0.73), orient) 
-        self.sm("cube", cube_urdf, '', pose, 'world')
-        
-        if self.col < 2:
-            self.col += 1
-        else:
-            self.col = 0
-        rospy.sleep(1)
+        pose = Pose(Point(x=0.8, y=-2.5, z=0.73), orient)
+
+        new_name_box = box.split('/')[-1].split('.')[0]
+        self.sm(new_name_box, cube_urdf, '', pose, 'world')
+        rospy.sleep(1)  
+
+        self.name_box = new_name_box  
 
     def deleteModel(self):
-        self.dm("cube")
+        if self.name_box is None:
+            return
+        self.dm(self.name_box)
+        self.name_box = None  
         rospy.sleep(1)
 
     def shutdown_hook(self):
         self.deleteModel()
-        print("Shutting down")
+        print("Goodbye!")
 
 if __name__ == "__main__":
     try:
-        print("Waiting for gazebo services...")
-        rospy.init_node("spawn_cubes")
+        rospy.init_node("move_boxes")
         rospy.wait_for_service("/gazebo/delete_model")
         rospy.wait_for_service("/gazebo/spawn_urdf_model")
         rospy.wait_for_service("/gazebo/get_model_state")
         r = rospy.Rate(15)
         bottle = BoxSpawner()
-        conveyor_control = ConveyorControl()  # Create an instance of ConveyorControl
+        conveyor_control = ConveyorControl()
         rospy.on_shutdown(bottle.shutdown_hook)
 
-        while not rospy.is_shutdown():
-
-            print(f'Position X: {bottle.getPositionX()}')
-            print(f'Position Z: {bottle.getPositionZ()}')
-    
+        while not rospy.is_shutdown():    
             if bottle.checkModel() == False:
-                print("New Box!")
+                print("New Box Generate!!")
                 bottle.spawnModel()
                 conveyor_control.moveConveyor(60.0)  
             elif bottle.getPositionX() <= 0 or bottle.getPositionZ() < 0.1: 
