@@ -22,7 +22,7 @@ class ConveyorControl():
 class BoxSpawner():
     def __init__(self):
         self.rospack = rospkg.RosPack()
-        self.path = self.rospack.get_path('kr210_gazebo')+"/urdf/"
+        self.path = self.rospack.get_path('kr210_gazebo')+"/urdf/boxes/"
         self.boxes = []
         self.name_box = None
         self.boxes.append(self.path+"box_red.urdf")
