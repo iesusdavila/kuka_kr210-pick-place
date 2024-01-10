@@ -6,7 +6,6 @@
 
   <arg name="gripper_2f" default="false" />
   <arg name="camera" default="false" />
-  <arg name="camera_arm" default="false" />
   
   <group if="$(arg remap)">
     <!-- remap topics to conform to ROS-I specifications -->
@@ -36,7 +35,6 @@
   <include file="$(find kr210_gazebo)/launch/spawn_kr210.launch">
     <arg name="camera" value="$(arg camera)"/>
     <arg name="gripper_2f" value="$(arg gripper_2f)"/>
-    <arg name="camera_arm" value="$(arg camera_arm)"/>
   </include>
   
 </launch>

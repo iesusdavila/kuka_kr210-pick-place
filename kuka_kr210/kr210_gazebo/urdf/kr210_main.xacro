@@ -3,7 +3,6 @@
 
     <xacro:arg name="camera" default="false"/>
     <xacro:arg name="gripper_2f" default="false"/>
-    <xacro:arg name="camera_arm" default="false"/>
 
     <xacro:include filename="$(find kr210_gazebo)/urdf/conveyor.xacro"/>
     <xacro:include filename="$(find kr210_gazebo)/urdf/gazebo.xacro"/>
@@ -11,11 +10,6 @@
     <!-- camera -->
     <xacro:if value="$(arg camera)">
         <xacro:include filename="$(find kr210_gazebo)/urdf/camera.xacro"/>
-    </xacro:if>
-
-    <!-- camera_arm -->
-    <xacro:if value="$(arg camera_arm)">
-        <xacro:include filename="$(find kr210_gazebo)/urdf/camera_arm.xacro"/>
     </xacro:if>
 
     <!-- gripper -->
