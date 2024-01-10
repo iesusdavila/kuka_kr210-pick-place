@@ -1,11 +1,11 @@
 <?xml version="1.0" ?>
-<robot name="red_cube">
+<robot name="box_blue">
 
   <link name="base_link">
-  
+
     <inertial>
       <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 0.0"/>
-      <mass value="0.1"/>
+      <mass value="50.0"/>
       <inertia ixx="0.1871" ixy="0.0" ixz="0.0" iyy="0.8333" iyz="0.0" izz="0.6871"/>
     </inertial>
 
@@ -14,8 +14,8 @@
       <geometry>
         <box size="0.4 0.07 0.2"/>
       </geometry>
-      <material name="red">
-        <color rgba="1 0 0 1"/>
+      <material name="blue">
+        <color rgba="0 0 1 1"/>
       </material>
     </visual>
 
@@ -29,7 +29,7 @@
   </link>
 
   <gazebo reference="base_link">
-    <material>Gazebo/Red</material>
+    <material>Gazebo/Blue</material>
   </gazebo>
-
+  
 </robot>

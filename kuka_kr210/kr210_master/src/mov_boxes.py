@@ -3,7 +3,7 @@
 import rospy, tf, rospkg, random
 from gazebo_msgs.srv import DeleteModel, SpawnModel, GetModelState
 from geometry_msgs.msg import Quaternion, Pose, Point
-from gazebo_conveyor.srv import ConveyorBeltControl  # Import the correct service definition
+from gazebo_conveyor.srv import ConveyorBeltControl  
 
 class ConveyorControl():
     def __init__(self):
@@ -25,9 +25,9 @@ class BoxSpawner():
         self.path = self.rospack.get_path('kr210_gazebo')+"/urdf/"
         self.boxes = []
         self.name_box = None
-        self.boxes.append(self.path+"red_cube.urdf")
-        self.boxes.append(self.path+"green_cube.urdf")
-        self.boxes.append(self.path+"blue_cube.urdf")
+        self.boxes.append(self.path+"box_red.urdf")
+        self.boxes.append(self.path+"box_green.urdf")
+        self.boxes.append(self.path+"box_blue.urdf")
 
         self.sm = rospy.ServiceProxy("/gazebo/spawn_urdf_model", SpawnModel)
         self.dm = rospy.ServiceProxy("/gazebo/delete_model", DeleteModel)
