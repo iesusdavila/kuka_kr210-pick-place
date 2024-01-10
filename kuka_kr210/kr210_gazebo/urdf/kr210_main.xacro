@@ -6,7 +6,6 @@
     <xacro:arg name="camera_arm" default="false"/>
 
     <xacro:include filename="$(find kr210_gazebo)/urdf/conveyor.xacro"/>
-    <xacro:include filename="$(find kr210_gazebo)/urdf/box.xacro"/>
     <xacro:include filename="$(find kr210_gazebo)/urdf/gazebo.xacro"/>
 
     <!-- camera -->

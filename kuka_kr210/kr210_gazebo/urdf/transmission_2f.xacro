@@ -89,7 +89,7 @@
     <gazebo>
         <plugin filename="libgazebo_grasp_fix.so" name="gazebo_grasp_fix">
         <arm>
-            <arm_name>kuka_kr210</arm_name>
+            <arm_name>kr210</arm_name>
             <palm_link>link_6</palm_link>
             <gripper_link>left_outer_knuckle</gripper_link>
             <gripper_link>right_outer_knuckle</gripper_link>
