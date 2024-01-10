@@ -28,16 +28,18 @@ class ColorDetector:
         if color_detected:
             print(f"Color detectado: {color_detected}")
 
-        # Validar si la caja llego al punto destino y publicar en su topico
-        box_reached, cx, cy = self.is_box_at_point(processed_image)
-        self.box_reached_pub.publish(box_reached)
-        if box_reached:
-            print("La caja ha llegado al punto negro.")
+            # Validar si la caja llego al punto destino y publicar en su topico
+            box_reached, cx, cy = self.is_box_at_point(processed_image)
+            self.box_reached_pub.publish(box_reached)
+            if box_reached:
+                print("La caja ha llegado al punto negro.")
+            
+            # creacion de un circulo centrado con radio de 100px, color blanco y que rellene la imagen
+            cv2.circle(processed_image, (cx,cy), 5, [255, 255, 255], -1)
+            cv2.circle(processed_image, self.black_point, 5, [255, 255, 255], -1)
+        else:
+            processed_image = np.zeros((cv_image.shape[0], cv_image.shape[1], 3), dtype=np.uint8)
         
-        # creacion de un circulo centrado con radio de 100px, color blanco y que rellene la imagen
-        cv2.circle(processed_image, (cx,cy), 5, [255, 255, 255], -1)
-        cv2.circle(processed_image, self.black_point, 5, [255, 255, 255], -1)
-
         # Publicar la imagen procesada
         try:
             self.image_pub.publish(self.bridge.cv2_to_imgmsg(processed_image, "bgr8"))
