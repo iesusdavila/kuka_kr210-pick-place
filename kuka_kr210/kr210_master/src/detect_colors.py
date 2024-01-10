@@ -10,24 +10,24 @@ class ColorDetector:
     def __init__(self):
         self.bridge = CvBridge()
         self.image_sub = rospy.Subscriber("/camera1/image_raw", Image, self.image_callback)
-        self.image_pub = rospy.Publisher("/processed_image", Image, queue_size=10)
+        self.image_pub = rospy.Publisher("/camera1/processed_image", Image, queue_size=10)
         self.box_reached_pub = rospy.Publisher("/box_reached", Bool, queue_size=10)
         self.black_point = (320, 248)
 
     def image_callback(self, data):
-        # Convertir la imagen ROS a OpenCV
+        # Convert the image from OpenCV to ROS format
         try:
             cv_image = self.bridge.imgmsg_to_cv2(data, "bgr8")
         except CvBridgeError as e:
             print(e)
 
-        # Procesa la imagen para detectar el color
+        # Process the image to detect the color
         processed_image, color_detected = self.process_image(cv_image)
 
         if color_detected:
             print(f"Color detectado: {color_detected}")
 
-            # Validar si la caja llego al punto destino y publicar en su topico
+            # Validate if the box has reached the black point and publish in its topic
             box_reached, cx, cy = self.is_box_at_point(processed_image)
             self.box_reached_pub.publish(box_reached)
             if box_reached:
