@@ -5,11 +5,14 @@ import actionlib
 from control_msgs.msg import FollowJointTrajectoryAction, FollowJointTrajectoryGoal
 from control_msgs.msg import GripperCommandAction, GripperCommandGoal
 from trajectory_msgs.msg import JointTrajectoryPoint
+from std_msgs.msg import Bool 
 
 class RobotArmClient:
     def __init__(self, arm_controller_name, gripper_controller_name):
         self.arm_client = actionlib.SimpleActionClient(arm_controller_name, FollowJointTrajectoryAction)
         self.gripper_client = actionlib.SimpleActionClient(gripper_controller_name, GripperCommandAction)
+        self.box_reached_sub = rospy.Subscriber("/box_reached", Bool, self.box_reached_callback)
+        self.is_box_reached = False
 
         rospy.loginfo("Waiting for the arm controller server...")
         self.arm_client.wait_for_server()
@@ -17,6 +20,9 @@ class RobotArmClient:
         self.gripper_client.wait_for_server()
 
         self.kuka_joints = ['joint_a1', 'joint_a2', 'joint_a3', 'joint_a4', 'joint_a5', 'joint_a6']
+    
+    def box_reached_callback(self, data):
+        self.is_box_reached = data.data
 
     def move_to_joint_positions(self, positions):
         rospy.loginfo("Moving the arm to the joint positions")
@@ -31,7 +37,7 @@ class RobotArmClient:
         self.arm_client.wait_for_result(rospy.Duration.from_sec(5.0))
 
         if self.arm_client.get_state() == actionlib.GoalStatus.SUCCEEDED:
-            rospy.loginfo("MOving the arm to the joint positions completed successfully")
+            rospy.loginfo("Moving the arm to the joint positions completed successfully")
             return True
         else:
             rospy.loginfo("Moving the arm to the joint positions failed")
@@ -54,26 +60,33 @@ class RobotArmClient:
             return False
 
 def perform_trajectory(arm_client):
-    waypoints = [
-        [-1.57, 0.62, -0.349066, 0, 1.320, -1.5708],
-        [0, 0, 0, 0, 0, 0.75],
-        [-1.57, 0.62, -0.349066, 0, 1.320, -1.5708],
-        [0, 0, 0, 0, 0, 0.75]
-    ]
+    pick_positions = [-1.57, 0.62, -0.349066, 0, 1.320, -1.5708]
+    place_positions = [0, 0, 0, 0, 0, 0.0]
 
-    gripper_positions = [0.2, 0.0, 0.2, 0.0]
+    gripper_close = 0.18
+    gripper_open = 0.0
 
-    rospy.loginfo("Initializing the arm movement...")
+    rospy.loginfo("Initiating the trajectory movement")
 
-    for idx, positions in enumerate(waypoints):
-        success = arm_client.move_to_joint_positions(positions)
-        if success:
-            rospy.sleep(2)
-            rospy.loginfo("Moving gripper before reaching the position.")
-            arm_client.move_gripper(gripper_positions[idx])
-            rospy.sleep(2)
+    while not rospy.is_shutdown():
+        if arm_client.is_box_reached:
+            arm_client.is_box_reached = False
 
-    rospy.loginfo("Movimiento de trayectoria finalizado")
+            rospy.loginfo("Moving the arm to the pick up position")
+            if arm_client.move_to_joint_positions(pick_positions):
+                rospy.loginfo("Closing the gripper")
+                arm_client.move_gripper(gripper_close)
+                rospy.sleep(1.0)
+            
+            rospy.loginfo("Moving the arm to the place position")
+            arm_client.move_to_joint_positions(place_positions)
+            rospy.loginfo("Opening the gripper")
+            arm_client.move_gripper(gripper_open)
+            rospy.sleep(1.0)
+        
+        rospy.sleep(0.1) 
+
+    rospy.loginfo("Moving of the trajectory finished")
 
 if __name__ == '__main__':
     try:
