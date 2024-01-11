@@ -44,7 +44,7 @@
             <mass value="100"/>
             <inertia ixx="0.0" ixy="0.0" ixz="0.0" iyy="0.0" iyz="0.0" izz="0.0"/>
         </inertial>
-        <visual>
+        <!-- <visual>
             <origin xyz="0.0 0.0 0.0005" rpy="0.0 0.0 0.0"/>
             <geometry>
                 <box size="0.85 2.4 0.001"/>
@@ -52,7 +52,7 @@
             <material name="test">
                 <color rgba="1 0 1 1" />
             </material>
-        </visual>
+        </visual> -->
         <collision>
             <origin xyz="0.0 0.0 0.0005" rpy="0.0 0.0 0.0"/>
             <geometry>
