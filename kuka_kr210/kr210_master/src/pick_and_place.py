@@ -5,14 +5,15 @@ import actionlib
 from control_msgs.msg import FollowJointTrajectoryAction, FollowJointTrajectoryGoal
 from control_msgs.msg import GripperCommandAction, GripperCommandGoal
 from trajectory_msgs.msg import JointTrajectoryPoint
-from std_msgs.msg import Bool 
+from kr210_master.msg import DetectColor 
 
 class RobotArmClient:
     def __init__(self, arm_controller_name, gripper_controller_name):
         self.arm_client = actionlib.SimpleActionClient(arm_controller_name, FollowJointTrajectoryAction)
         self.gripper_client = actionlib.SimpleActionClient(gripper_controller_name, GripperCommandAction)
-        self.box_reached_sub = rospy.Subscriber("/box_reached", Bool, self.box_reached_callback)
+        self.box_reached_sub = rospy.Subscriber("/box_reached", DetectColor, self.box_reached_callback)
         self.is_box_reached = False
+        self.color_detected = None
 
         rospy.loginfo("Waiting for the arm controller server...")
         self.arm_client.wait_for_server()
@@ -21,8 +22,9 @@ class RobotArmClient:
 
         self.kuka_joints = ['joint_a1', 'joint_a2', 'joint_a3', 'joint_a4', 'joint_a5', 'joint_a6']
     
-    def box_reached_callback(self, data):
-        self.is_box_reached = data.data
+    def box_reached_callback(self, msg):
+        self.is_box_reached = msg.detect
+        self.color_detected = msg.color
 
     def move_to_joint_positions(self, positions):
         rospy.loginfo("Moving the arm to the joint positions")
@@ -73,6 +75,14 @@ def perform_trajectory(arm_client):
             arm_client.is_box_reached = False
 
             rospy.loginfo("Moving the arm to the pick up position")
+
+            if arm_client.color_detected == "Red":
+                rospy.loginfo(f'Color detectado: {arm_client.color_detected}')
+            elif arm_client.color_detected == "Green":
+                rospy.loginfo(f'Color detectado: {arm_client.color_detected}')
+            elif arm_client.color_detected == "Blue":
+                rospy.loginfo(f'Color detectado: {arm_client.color_detected}')
+
             if arm_client.move_to_joint_positions(pick_positions):
                 rospy.loginfo("Closing the gripper")
                 arm_client.move_gripper(gripper_close)

@@ -3,7 +3,7 @@ import rospy
 import cv2
 import numpy as np
 from sensor_msgs.msg import Image
-from std_msgs.msg import Bool 
+from kr210_master.msg import DetectColor 
 from cv_bridge import CvBridge, CvBridgeError
 
 class ColorDetector:
@@ -11,7 +11,7 @@ class ColorDetector:
         self.bridge = CvBridge()
         self.image_sub = rospy.Subscriber("/camera1/image_raw", Image, self.image_callback)
         self.image_pub = rospy.Publisher("/camera1/processed_image", Image, queue_size=10)
-        self.box_reached_pub = rospy.Publisher("/box_reached", Bool, queue_size=10)
+        self.box_reached_pub = rospy.Publisher("/box_reached", DetectColor, queue_size=10)
         self.black_point = (320, 248)
 
     def image_callback(self, data):
@@ -29,7 +29,13 @@ class ColorDetector:
 
             # Validate if the box has reached the black point and publish in its topic
             box_reached, cx, cy = self.is_box_at_point(processed_image)
-            self.box_reached_pub.publish(box_reached)
+
+            # Generate the custom message DetectColor to publish
+            box_pub = DetectColor()
+            box_pub.color = color_detected
+            box_pub.detect = box_reached
+            self.box_reached_pub.publish(box_pub)
+
             if box_reached:
                 print("La caja ha llegado al punto negro.")
             
