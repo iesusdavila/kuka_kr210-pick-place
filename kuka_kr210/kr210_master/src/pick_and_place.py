@@ -63,7 +63,9 @@ class RobotArmClient:
 
 def perform_trajectory(arm_client):
     pick_positions = [-1.57, 0.62, -0.349066, 0, 1.320, -1.5708]
-    place_positions = [0, 0, 0, 0, 0, 0.0]
+    place_position_blue = [1.57, 0.62, -0.349066, 0, 1.320, -1.5708]
+    place_position_red = [0, 0.62, -0.349066, 0, 1.320, -1.5708]
+    place_position_green = [3.1416, 0.62, -0.349066, 0, 1.320, -1.5708]
 
     gripper_close = 0.18
     gripper_open = 0.0
@@ -76,20 +78,23 @@ def perform_trajectory(arm_client):
 
             rospy.loginfo("Moving the arm to the pick up position")
 
-            if arm_client.color_detected == "Red":
-                rospy.loginfo(f'Color detectado: {arm_client.color_detected}')
-            elif arm_client.color_detected == "Green":
-                rospy.loginfo(f'Color detectado: {arm_client.color_detected}')
-            elif arm_client.color_detected == "Blue":
-                rospy.loginfo(f'Color detectado: {arm_client.color_detected}')
-
             if arm_client.move_to_joint_positions(pick_positions):
                 rospy.loginfo("Closing the gripper")
                 arm_client.move_gripper(gripper_close)
                 rospy.sleep(1.0)
-            
+
             rospy.loginfo("Moving the arm to the place position")
-            arm_client.move_to_joint_positions(place_positions)
+
+            if arm_client.color_detected == "Red":
+                rospy.loginfo(f'Color detected: {arm_client.color_detected}')
+                arm_client.move_to_joint_positions(place_position_red)
+            elif arm_client.color_detected == "Green":
+                rospy.loginfo(f'Color detected: {arm_client.color_detected}')
+                arm_client.move_to_joint_positions(place_position_green)
+            elif arm_client.color_detected == "Blue":
+                rospy.loginfo(f'Color detected: {arm_client.color_detected}')
+                arm_client.move_to_joint_positions(place_position_blue)
+
             rospy.loginfo("Opening the gripper")
             arm_client.move_gripper(gripper_open)
             rospy.sleep(1.0)
