@@ -1,56 +1,86 @@
 #!/usr/bin/env python3
 
 import rospy
-from trajectory_msgs.msg import JointTrajectory, JointTrajectoryPoint
-from control_msgs.msg import GripperCommandActionGoal
+import actionlib
+from control_msgs.msg import FollowJointTrajectoryAction, FollowJointTrajectoryGoal
+from control_msgs.msg import GripperCommandAction, GripperCommandGoal
+from trajectory_msgs.msg import JointTrajectoryPoint
 
-def perform_trajectory():
+class RobotArmClient:
+    def __init__(self, arm_controller_name, gripper_controller_name):
+        self.arm_client = actionlib.SimpleActionClient(arm_controller_name, FollowJointTrajectoryAction)
+        self.gripper_client = actionlib.SimpleActionClient(gripper_controller_name, GripperCommandAction)
 
-    rospy.init_node('kuka_trajectory_publisher')  
+        rospy.loginfo("Waiting for the arm controller server...")
+        self.arm_client.wait_for_server()
+        rospy.loginfo("Waiting for the gripper controller server...")
+        self.gripper_client.wait_for_server()
 
-    controller_name = '/arm_controller/command'
-    gripper_controller_name = '/gripper/gripper_cmd/goal'
+        self.kuka_joints = ['joint_a1', 'joint_a2', 'joint_a3', 'joint_a4', 'joint_a5', 'joint_a6']
 
-    trajectory_publisher = rospy.Publisher(controller_name, JointTrajectory, queue_size=10)  
-    gripper_publisher = rospy.Publisher(gripper_controller_name, GripperCommandActionGoal, queue_size=10)  
+    def move_to_joint_positions(self, positions):
+        rospy.loginfo("Moving the arm to the joint positions")
+        goal = FollowJointTrajectoryGoal()
+        goal.trajectory.joint_names = self.kuka_joints
+        point = JointTrajectoryPoint()
+        point.positions = positions
+        point.time_from_start = rospy.Duration(3)
+        goal.trajectory.points.append(point)
 
-    kuka_joints = ['joint_a1', 'joint_a2', 'joint_a3', 'joint_a4', 'joint_a5', 'joint_a6']  # Name of joints
+        self.arm_client.send_goal(goal)
+        self.arm_client.wait_for_result(rospy.Duration.from_sec(5.0))
 
+        if self.arm_client.get_state() == actionlib.GoalStatus.SUCCEEDED:
+            rospy.loginfo("MOving the arm to the joint positions completed successfully")
+            return True
+        else:
+            rospy.loginfo("Moving the arm to the joint positions failed")
+            return False
+
+    def move_gripper(self, position):
+        rospy.loginfo("Moving the gripper to the position: {}".format(position))
+        goal = GripperCommandGoal()
+        goal.command.position = position
+        goal.command.max_effort = 0.0
+
+        self.gripper_client.send_goal(goal)
+        self.gripper_client.wait_for_result(rospy.Duration.from_sec(5.0))
+
+        if self.gripper_client.get_state() == actionlib.GoalStatus.SUCCEEDED:
+            rospy.loginfo("Moving the gripper to the position completed successfully")
+            return True
+        else:
+            rospy.loginfo("Moving the gripper to the position failed")
+            return False
+
+def perform_trajectory(arm_client):
     waypoints = [
-        [-1.57, 0.61, -0.349066, 0, 1.309, -1.5708],
+        [-1.57, 0.62, -0.349066, 0, 1.320, -1.5708],
         [0, 0, 0, 0, 0, 0.75],
-        [-1.57, 0.61, -0.349066, 0, 1.309, -1.5708],
+        [-1.57, 0.62, -0.349066, 0, 1.320, -1.5708],
         [0, 0, 0, 0, 0, 0.75]
     ]
 
-    gripper_positions = [0.18, 0.0, 0.18, 0.0]  
+    gripper_positions = [0.2, 0.0, 0.2, 0.0]
 
-    rospy.loginfo("Starting trajectory movement")
+    rospy.loginfo("Initializing the arm movement...")
 
-    for idx, point in enumerate(waypoints):      
-        rospy.loginfo("Moving to waypoint {}".format(idx+1))  
-        trajectory_msg = JointTrajectory()  
-        trajectory_msg.joint_names = kuka_joints
-        trajectory_msg.points.append(JointTrajectoryPoint())
-        trajectory_msg.points[0].positions = point
-        trajectory_msg.points[0].velocities = [0.0 for i in kuka_joints]
-        trajectory_msg.points[0].accelerations = [0.0 for i in kuka_joints]
-        trajectory_msg.points[0].time_from_start = rospy.Duration(3)
-        
-        rospy.sleep(1)
-        trajectory_publisher.publish(trajectory_msg)
-        rospy.sleep(3)  
-        move_gripper(gripper_positions[idx], gripper_publisher)
+    for idx, positions in enumerate(waypoints):
+        success = arm_client.move_to_joint_positions(positions)
+        if success:
+            rospy.sleep(2)
+            rospy.loginfo("Moving gripper before reaching the position.")
+            arm_client.move_gripper(gripper_positions[idx])
+            rospy.sleep(2)
 
-    rospy.loginfo("Trajectory movement finished")
-
-def move_gripper(position, publisher):
-    rospy.loginfo("Moving gripper to position: {}".format(position))
-    gripper_msg = GripperCommandActionGoal()
-    gripper_msg.goal.command.position = position
-    gripper_msg.goal.command.max_effort = 0.0
-    publisher.publish(gripper_msg)
-    rospy.sleep(1) 
+    rospy.loginfo("Movimiento de trayectoria finalizado")
 
 if __name__ == '__main__':
-    perform_trajectory()
+    try:
+        rospy.init_node('kuka_trajectory_publisher')
+        arm_controller_name = '/arm_controller/follow_joint_trajectory'
+        gripper_controller_name = '/gripper/gripper_cmd'
+        arm_client = RobotArmClient(arm_controller_name, gripper_controller_name)
+        perform_trajectory(arm_client)
+    except rospy.ROSInterruptException:
+        rospy.loginfo("Program interrupted before completion")
