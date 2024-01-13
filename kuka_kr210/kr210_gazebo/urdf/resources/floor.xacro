@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<robot name="floor" xmlns:xacro="http://ros.org/wiki/xacro">
+
+    <joint name="floor_joint" type="fixed">
+        <parent link="world"/>
+        <child link="floor_visual"/>
+        <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+    </joint>
+    
+    <link name="floor_visual">
+        <xacro:inertial_box mass="0.1" x="20" y="20" z="0.001">
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+        </xacro:inertial_box>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <geometry>
+                <box size="20 20 0.001"/>
+            </geometry>
+            <material name="light_grey"/>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <geometry>
+                <box size="20 20 0.001"/>
+            </geometry>
+        </collision>
+    </link>
+
+    <gazebo reference="floor_visual">
+        <material>Gazebo/DarkGrey</material>
+    </gazebo>
+</robot>

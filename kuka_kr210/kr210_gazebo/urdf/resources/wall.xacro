@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<robot name="wall" xmlns:xacro="http://ros.org/wiki/xacro">
+
+    <xacro:macro name="walls" params="name x y r p width height">
+        <joint name="${name}_joint" type="fixed">
+            <parent link="world"/>
+            <child link="${name}_visual"/>
+            <origin xyz="${x} ${y} ${height/2}" rpy="${r} ${p} 0.0"/>
+        </joint>
+        
+        <link name="${name}_visual">
+            <visual>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <geometry>
+                    <box size="${height} ${width} 0.15"/>
+                </geometry>
+                <material name="light_black"/>
+            </visual>
+            <collision>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <geometry>
+                    <box size="${height} ${width} 0.15"/>
+                </geometry>
+            </collision>
+            <xacro:inertial_box mass="0.1" x="${height}" y="${width}" z="0.15">
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+            </xacro:inertial_box>
+        </link>
+
+        <gazebo reference="${name}_visual">
+            <material>Gazebo/Bricks</material>
+        </gazebo>
+    </xacro:macro>
+
+    <xacro:walls name="wall1" x="0.0" y="5" r="1.5708" p="1.5708" height="3.55" width="10"/>
+    <xacro:walls name="wall2" x="0.0" y="-5" r="1.5708" p="1.5708" height="3.55" width="10"/>
+    <xacro:walls name="wall3" x="-5" y="0.0" r="0.0" p="1.5708" height="3.55" width="10"/>
+</robot>
