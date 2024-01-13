@@ -78,6 +78,7 @@ def perform_trajectory(arm_client):
     while not rospy.is_shutdown():
         if arm_client.is_box_reached:
             arm_client.is_box_reached = False
+            compl_mov_color = False
 
             rospy.loginfo("Moving the arm to the pick up position")
 
@@ -86,25 +87,29 @@ def perform_trajectory(arm_client):
                 arm_client.move_gripper(gripper_close)
                 rospy.sleep(time_to_wait)
 
-            rospy.loginfo("Moving the arm to the place position")
+                rospy.loginfo("Moving the arm to the place position")
 
-            if arm_client.color_detected == "Red":
-                rospy.loginfo(f'Color detected: {arm_client.color_detected}')
-                arm_client.move_to_joint_positions(place_position_red)
-            elif arm_client.color_detected == "Green":
-                rospy.loginfo(f'Color detected: {arm_client.color_detected}')
-                arm_client.move_to_joint_positions(place_position_green)
-            elif arm_client.color_detected == "Blue":
-                rospy.loginfo(f'Color detected: {arm_client.color_detected}')
-                arm_client.move_to_joint_positions(place_position_blue)
+                if arm_client.color_detected == "Red":
+                    rospy.loginfo(f'Color detected: {arm_client.color_detected}')
+                    compl_mov_color = arm_client.move_to_joint_positions(place_position_red)
+                elif arm_client.color_detected == "Green":
+                    rospy.loginfo(f'Color detected: {arm_client.color_detected}')
+                    compl_mov_color = arm_client.move_to_joint_positions(place_position_green)
+                elif arm_client.color_detected == "Blue":
+                    rospy.loginfo(f'Color detected: {arm_client.color_detected}')
+                    compl_mov_color = arm_client.move_to_joint_positions(place_position_blue)
 
-            rospy.loginfo("Opening the gripper")
-            arm_client.move_gripper(gripper_open)
-            rospy.sleep(time_to_wait)
+                if compl_mov_color:
+                    rospy.loginfo("Opening the gripper")
+                    if arm_client.move_gripper(gripper_open):
+                        rospy.sleep(time_to_wait)
 
-            rospy.loginfo("Moving the arm to the home position")
-            arm_client.move_to_joint_positions(place_position_home)
-            rospy.sleep(time_to_wait)
+                        # Delete this if you don't want to move the arm to the home position after placing the box
+                        # -----------------------
+                        rospy.loginfo("Moving the arm to the home position")
+                        arm_client.move_to_joint_positions(place_position_home)
+                        rospy.sleep(time_to_wait)
+                        # -----------------------
         
         rospy.sleep(0.1) 
 
