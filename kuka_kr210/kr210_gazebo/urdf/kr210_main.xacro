@@ -8,7 +8,7 @@
     <xacro:include filename="$(find kr210_gazebo)/urdf/resources/materials.xacro"/>
     <xacro:include filename="$(find kr210_gazebo)/urdf/conveyor.xacro"/>
     <xacro:include filename="$(find kr210_gazebo)/urdf/gazebo.xacro"/>
-    <xacro:include filename="$(find kr210_gazebo)/urdf/resources/pallet.xacro"/>
+    <xacro:include filename="$(find kr210_gazebo)/urdf/resources/table.xacro"/>
 
     <!-- camera -->
     <xacro:if value="$(arg camera)">

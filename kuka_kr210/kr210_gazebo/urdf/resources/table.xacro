@@ -1,0 +1,105 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <!-- Macro for table leg -->
+  <xacro:macro name="table_leg" params="name x y z">
+    <link name="${name}">
+      <visual>
+        <geometry>
+          <cylinder radius="${x/2}" length="${z}"/>
+        </geometry>
+        <material name="wood"/>
+      </visual>
+      <collision>
+        <geometry>
+          <cylinder radius="${x/2}" length="${z}"/>
+        </geometry>
+      </collision>
+      <xacro:inertial_cylinder mass="0.1" length="${z}" radius="${x/2}">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+      </xacro:inertial_cylinder>
+    </link>
+
+    <gazebo reference="${name}">
+      <material>Gazebo/Gray</material>
+    </gazebo>
+  </xacro:macro>
+
+  <!-- Macro for table top -->
+  <xacro:macro name="table_top" params="name length width height">
+    <link name="${name}">
+      <visual>
+        <geometry>
+          <box size="${length} ${width} ${height}"/>
+        </geometry>
+        <material name="wood"/>
+      </visual>
+      <collision>
+        <geometry>
+          <box size="${length} ${width} ${height}"/>
+        </geometry>
+      </collision>
+      <xacro:inertial_box mass="0.1" x="${length}" y="${width}" z="${height}">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+      </xacro:inertial_box>
+    </link>
+
+    <gazebo reference="${name}">
+      <material>Gazebo/Wood</material>
+    </gazebo>
+  </xacro:macro>
+
+  <!-- Macro for table complete -->
+  <xacro:macro name="table" params="name_table top_length top_width top_height leg_radius leg_height pos_x pos_y rot_z">
+    <!-- Superficie of table -->
+    <xacro:table_top name="${name_table}_table_top" length="${top_length}" width="${top_width}" height="${top_height}"/>
+
+    <!-- Table legs -->
+    <xacro:table_leg name="${name_table}_leg1" x="${leg_radius}" y="${leg_radius}" z="${leg_height}"/>
+    <xacro:table_leg name="${name_table}_leg2" x="${leg_radius}" y="${leg_radius}" z="${leg_height}"/>
+    <xacro:table_leg name="${name_table}_leg3" x="${leg_radius}" y="${leg_radius}" z="${leg_height}"/>
+    <xacro:table_leg name="${name_table}_leg4" x="${leg_radius}" y="${leg_radius}" z="${leg_height}"/>
+
+    <joint name="${name_table}_joint0" type="fixed">
+      <parent link="world"/>
+      <child link="${name_table}_table_top"/>
+      <origin xyz="${pos_x} ${pos_y} ${leg_height}" rpy="0 0 ${rot_z}"/>
+    </joint>
+
+    <!-- Joints between table top and table legs -->
+    <joint name="${name_table}_joint1" type="fixed">
+      <parent link="${name_table}_table_top"/>
+      <child link="${name_table}_leg1"/>
+      <origin xyz="${top_length/2} ${top_width/2} -${leg_height/2}"/>
+    </joint>
+
+    <joint name="${name_table}_joint2" type="fixed">
+      <parent link="${name_table}_table_top"/>
+      <child link="${name_table}_leg2"/>
+      <origin xyz="${top_length/2} -${top_width/2} -${leg_height/2}"/>
+    </joint>
+
+    <joint name="${name_table}_joint3" type="fixed">
+      <parent link="${name_table}_table_top"/>
+      <child link="${name_table}_leg3"/>
+      <origin xyz="-${top_length/2} ${top_width/2} -${leg_height/2}"/>
+    </joint>
+
+    <joint name="${name_table}_joint4" type="fixed">
+      <parent link="${name_table}_table_top"/>
+      <child link="${name_table}_leg4"/>
+      <origin xyz="-${top_length/2} -${top_width/2} -${leg_height/2}"/>
+    </joint>
+
+  </xacro:macro>
+
+  <!-- Table for red box -->
+  <xacro:table name_table="red" top_length="1.0" top_width="0.5" top_height="0.075" leg_radius="0.06" leg_height="0.5" pos_x="2.5" pos_y="0" rot_z="1.5708"/>
+
+  <!-- Table for green box -->
+  <xacro:table name_table="green" top_length="1.0" top_width="0.5" top_height="0.075" leg_radius="0.06" leg_height="0.5" pos_x="-2.5" pos_y="0" rot_z="1.5708"/>
+
+  <!-- Table for blue box -->
+  <xacro:table name_table="blue" top_length="1.0" top_width="0.5" top_height="0.075" leg_radius="0.06" leg_height="0.5" pos_x="0" pos_y="2.5" rot_z="0.0"/>
+
+</robot>
