@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<launch>  
+
+  <node name="kuka_trajectory_publisher" pkg="kr210_master" type="pick_and_place.py" output="screen" />
+
+  <node name="color_detector" pkg="kr210_master" type="detect_colors.py"/>
+
+  <node name="move_boxes" pkg="kr210_master" type="mov_boxes.py"/>
+  
+</launch>
