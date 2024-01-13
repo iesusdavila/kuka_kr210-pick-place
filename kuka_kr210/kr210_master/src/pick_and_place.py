@@ -63,15 +63,15 @@ class RobotArmClient:
 
 def perform_trajectory(arm_client):
     pick_positions = [-1.57, 0.62, -0.349066, 0, 1.320, -1.5708]
-    place_position_blue = [1.57, 0.62, -0.349066, 0, 1.320, -1.5708]
-    place_position_red = [0, 0.62, -0.349066, 0, 1.320, -1.5708]
-    place_position_green = [3.1416, 0.62, -0.349066, 0, 1.320, -1.5708]
+    place_position_blue = [1.57, 0.62, -0.349066, 0, 1.320, 0.0]
+    place_position_red = [0, 0.62, -0.349066, 0, 1.320, 0.0]
+    place_position_green = [3.1416, 0.62, -0.349066, 0, 1.320, 0.0]
     place_position_home = [0, 0, 0, 0, 0, 0]
 
     gripper_close = 0.18
     gripper_open = 0.0
 
-    time_to_wait = 1.0
+    time_to_wait = 2.0
 
     rospy.loginfo("Initiating the trajectory movement")
 
