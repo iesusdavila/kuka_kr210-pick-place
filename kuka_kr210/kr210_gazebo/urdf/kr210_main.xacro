@@ -4,8 +4,11 @@
     <xacro:arg name="camera" default="false"/>
     <xacro:arg name="gripper_2f" default="false"/>
 
+    <xacro:include filename="$(find kr210_gazebo)/urdf/resources/inertial_macros.xacro"/>
+    <xacro:include filename="$(find kr210_gazebo)/urdf/resources/materials.xacro"/>
     <xacro:include filename="$(find kr210_gazebo)/urdf/conveyor.xacro"/>
     <xacro:include filename="$(find kr210_gazebo)/urdf/gazebo.xacro"/>
+    <xacro:include filename="$(find kr210_gazebo)/urdf/resources/pallet.xacro"/>
 
     <!-- camera -->
     <xacro:if value="$(arg camera)">
