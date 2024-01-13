@@ -96,7 +96,7 @@ if __name__ == "__main__":
             elif bottle.getPositionX() <= 0 or bottle.getPositionZ() < 0.1: 
                 conveyor_control.moveConveyor(0.0)  
 
-            if bottle.getPositionZ() < 0.1:
+            if bottle.getPositionZ() < 0.6127:
                 bottle.deleteModel()
 
             r.sleep()
