@@ -66,9 +66,12 @@ def perform_trajectory(arm_client):
     place_position_blue = [1.57, 0.62, -0.349066, 0, 1.320, -1.5708]
     place_position_red = [0, 0.62, -0.349066, 0, 1.320, -1.5708]
     place_position_green = [3.1416, 0.62, -0.349066, 0, 1.320, -1.5708]
+    place_position_home = [0, 0, 0, 0, 0, 0]
 
     gripper_close = 0.18
     gripper_open = 0.0
+
+    time_to_wait = 1.0
 
     rospy.loginfo("Initiating the trajectory movement")
 
@@ -81,7 +84,7 @@ def perform_trajectory(arm_client):
             if arm_client.move_to_joint_positions(pick_positions):
                 rospy.loginfo("Closing the gripper")
                 arm_client.move_gripper(gripper_close)
-                rospy.sleep(1.0)
+                rospy.sleep(time_to_wait)
 
             rospy.loginfo("Moving the arm to the place position")
 
@@ -97,7 +100,11 @@ def perform_trajectory(arm_client):
 
             rospy.loginfo("Opening the gripper")
             arm_client.move_gripper(gripper_open)
-            rospy.sleep(1.0)
+            rospy.sleep(time_to_wait)
+
+            rospy.loginfo("Moving the arm to the home position")
+            arm_client.move_to_joint_positions(place_position_home)
+            rospy.sleep(time_to_wait)
         
         rospy.sleep(0.1) 
 
