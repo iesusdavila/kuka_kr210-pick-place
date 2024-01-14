@@ -1,10 +1,17 @@
 <?xml version="1.0"?>
 <launch>  
-
-  <node name="kuka_trajectory_publisher" pkg="kr210_master" type="pick_and_place.py" output="screen" />
+  <arg name="movCart" default="false"/>
 
   <node name="color_detector" pkg="kr210_master" type="detect_colors.py"/>
-
   <node name="move_boxes" pkg="kr210_master" type="mov_boxes.py"/>
+
+  <group if="$(arg movJoints)">
+    <include file="$(find kuka_arm_2f_moveit)/launch/move_group.launch"/>
+    <node name="kuka_trajectory_publisher" pkg="kr210_master" type="pick_and_place_v2.py" output="screen" />
+  </group>
+
+  <group unless="$(arg movJoints)">
+    <node name="kuka_trajectory_publisher" pkg="kr210_master" type="pick_and_place.py" output="screen" />
+  </group>
   
 </launch>
