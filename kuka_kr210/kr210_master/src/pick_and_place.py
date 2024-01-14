@@ -63,10 +63,14 @@ class RobotArmClient:
 
 def perform_trajectory(arm_client):
     pick_positions = [-1.57, 0.62, -0.349066, 0, 1.320, -1.5708]
-    place_position_blue = [1.57, 0.62, -0.349066, 0, 1.320, 0.0]
-    place_position_red = [0, 0.62, -0.349066, 0, 1.320, 0.0]
-    place_position_green = [3.1416, 0.62, -0.349066, 0, 1.320, 0.0]
+    place_position_blue = [1.44782, 0.62, -0.366519, 0, 1.320, -0.122173]
+    place_position_red = [-0.122173, 0.62, -0.366519, 0, 1.320, -0.122173]
+    place_position_green = [3.019425, 0.62, -0.366519, 0, 1.320, -0.122173]
     place_position_home = [0, 0, 0, 0, 0, 0]
+
+    cont_box_red = 0
+    cont_box_green = 0
+    cont_box_blue = 0
 
     gripper_close = 0.18
     gripper_open = 0.0
@@ -91,13 +95,34 @@ def perform_trajectory(arm_client):
 
                 if arm_client.color_detected == "Red":
                     rospy.loginfo(f'Color detected: {arm_client.color_detected}')
-                    compl_mov_color = arm_client.move_to_joint_positions(place_position_red)
+                    cont_box_red += 1
+                    if cont_box_red != 1:
+                        place_position_red[0] = place_position_red[0] + 0.122173/3
+                        place_position_red[5] = place_position_red[5] + 0.122173/3
+                        place_position_red[3] = place_position_red[3] + 0.0174533/3
+                        compl_mov_color = arm_client.move_to_joint_positions(place_position_red)
+                    else:
+                        compl_mov_color = arm_client.move_to_joint_positions(place_position_red)
                 elif arm_client.color_detected == "Green":
                     rospy.loginfo(f'Color detected: {arm_client.color_detected}')
-                    compl_mov_color = arm_client.move_to_joint_positions(place_position_green)
+                    cont_box_green += 1
+                    if cont_box_green != 1:
+                        place_position_green[0] = place_position_green[0] + 0.122173/3
+                        place_position_green[5] = place_position_green[5] + 0.122173/3
+                        place_position_green[3] = place_position_green[3] + 0.0174533/3
+                        compl_mov_color = arm_client.move_to_joint_positions(place_position_green)
+                    else:
+                        compl_mov_color = arm_client.move_to_joint_positions(place_position_green)
                 elif arm_client.color_detected == "Blue":
                     rospy.loginfo(f'Color detected: {arm_client.color_detected}')
-                    compl_mov_color = arm_client.move_to_joint_positions(place_position_blue)
+                    cont_box_blue += 1
+                    if cont_box_blue != 1:
+                        place_position_blue[0] = place_position_blue[0] + 0.122173/3
+                        place_position_blue[5] = place_position_blue[5] + 0.122173/3
+                        place_position_blue[3] = place_position_blue[3] + 0.0174533/3
+                        compl_mov_color = arm_client.move_to_joint_positions(place_position_blue)
+                    else:
+                        compl_mov_color = arm_client.move_to_joint_positions(place_position_blue)
 
                 if compl_mov_color:
                     rospy.loginfo("Opening the gripper")

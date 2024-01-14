@@ -25,9 +25,15 @@ class BoxSpawner():
         self.path = self.rospack.get_path('kr210_gazebo')+"/urdf/boxes/"
         self.boxes = []
         self.name_box = None
+        self.box_count = 0
         self.boxes.append(self.path+"box_red.urdf")
         self.boxes.append(self.path+"box_green.urdf")
         self.boxes.append(self.path+"box_blue.urdf")
+
+        self.red_count = 0
+        self.green_count = 0
+        self.blue_count = 0
+        self.max_boxes = 6
 
         self.sm = rospy.ServiceProxy("/gazebo/spawn_urdf_model", SpawnModel)
         self.dm = rospy.ServiceProxy("/gazebo/delete_model", DeleteModel)
@@ -52,19 +58,43 @@ class BoxSpawner():
         return res.pose.position.z
 
     def spawnModel(self):
-        box = random.choice(self.boxes)  
-        with open(box,"r") as f:
+        if self.red_count >= self.max_boxes and self.green_count >= self.max_boxes and self.blue_count >= self.max_boxes:
+            rospy.loginfo("Maximum number of boxes reached for all colors.")
+            return
+
+        box = random.choice(self.boxes)
+        box_color = box.split('/')[-1].split('_')[1]
+
+        rospy.loginfo("Spawning a {} box.".format(box_color.split('.')[0]))
+        if box_color.split('.')[0] == 'red' and self.red_count >= self.max_boxes:
+            return
+        elif box_color.split('.')[0] == 'green' and self.green_count >= self.max_boxes:
+            return
+        elif box_color.split('.')[0] == 'blue' and self.blue_count >= self.max_boxes:
+            return
+
+        with open(box, "r") as f:
             cube_urdf = f.read()
-        
+
         quat = tf.transformations.quaternion_from_euler(0, 0, 0)
         orient = Quaternion(quat[0], quat[1], quat[2], quat[3])
         pose = Pose(Point(x=0.8, y=-2.5, z=0.73), orient)
 
-        new_name_box = box.split('/')[-1].split('.')[0]
-        self.sm(new_name_box, cube_urdf, '', pose, 'world')
-        rospy.sleep(1)  
+        # Generate a box with unique name
+        self.box_count += 1
+        new_name_box = f"box_{self.box_count}"
 
-        self.name_box = new_name_box  
+        self.sm(new_name_box, cube_urdf, '', pose, 'world')
+        rospy.sleep(1)
+
+        if box_color.split('.')[0] == 'red':
+            self.red_count += 1
+        elif box_color.split('.')[0] == 'green':
+            self.green_count += 1
+        elif box_color.split('.')[0] == 'blue':
+            self.blue_count += 1
+
+        self.name_box = new_name_box 
 
     def deleteModel(self):
         if self.name_box is None:
@@ -97,7 +127,9 @@ if __name__ == "__main__":
                 conveyor_control.moveConveyor(0.0)  
 
             if bottle.getPositionZ() < 0.6127:
-                bottle.deleteModel()
+                print("New Box Generate!!")
+                bottle.spawnModel()
+                conveyor_control.moveConveyor(60.0)  
 
             r.sleep()
     except KeyboardInterrupt or rospy.ROSInterruptException:
