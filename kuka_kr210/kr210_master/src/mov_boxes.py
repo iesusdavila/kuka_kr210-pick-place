@@ -33,7 +33,7 @@ class BoxSpawner():
         self.red_count = 0
         self.green_count = 0
         self.blue_count = 0
-        self.max_boxes = 6
+        self.max_boxes = 5
 
         self.sm = rospy.ServiceProxy("/gazebo/spawn_urdf_model", SpawnModel)
         self.dm = rospy.ServiceProxy("/gazebo/delete_model", DeleteModel)

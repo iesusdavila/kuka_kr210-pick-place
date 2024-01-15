@@ -97,9 +97,9 @@ def perform_trajectory(arm_client):
                     rospy.loginfo(f'Color detected: {arm_client.color_detected}')
                     cont_box_red += 1
                     if cont_box_red != 1:
-                        place_position_red[0] = place_position_red[0] + 0.122173/3
-                        place_position_red[5] = place_position_red[5] + 0.122173/3
-                        place_position_red[3] = place_position_red[3] + 0.0174533/3
+                        place_position_red[0] = place_position_red[0] + 0.122173/2.5
+                        place_position_red[5] = place_position_red[5] + 0.122173/2.5
+                        place_position_red[3] = place_position_red[3] + 0.0174533/2.5
                         compl_mov_color = arm_client.move_to_joint_positions(place_position_red)
                     else:
                         compl_mov_color = arm_client.move_to_joint_positions(place_position_red)
@@ -107,9 +107,9 @@ def perform_trajectory(arm_client):
                     rospy.loginfo(f'Color detected: {arm_client.color_detected}')
                     cont_box_green += 1
                     if cont_box_green != 1:
-                        place_position_green[0] = place_position_green[0] + 0.122173/3
-                        place_position_green[5] = place_position_green[5] + 0.122173/3
-                        place_position_green[3] = place_position_green[3] + 0.0174533/3
+                        place_position_green[0] = place_position_green[0] + 0.122173/2.5
+                        place_position_green[5] = place_position_green[5] + 0.122173/2.5
+                        place_position_green[3] = place_position_green[3] + 0.0174533/2.5
                         compl_mov_color = arm_client.move_to_joint_positions(place_position_green)
                     else:
                         compl_mov_color = arm_client.move_to_joint_positions(place_position_green)
@@ -117,9 +117,9 @@ def perform_trajectory(arm_client):
                     rospy.loginfo(f'Color detected: {arm_client.color_detected}')
                     cont_box_blue += 1
                     if cont_box_blue != 1:
-                        place_position_blue[0] = place_position_blue[0] + 0.122173/3
-                        place_position_blue[5] = place_position_blue[5] + 0.122173/3
-                        place_position_blue[3] = place_position_blue[3] + 0.0174533/3
+                        place_position_blue[0] = place_position_blue[0] + 0.122173/2.5
+                        place_position_blue[5] = place_position_blue[5] + 0.122173/2.5
+                        place_position_blue[3] = place_position_blue[3] + 0.0174533/2.5
                         compl_mov_color = arm_client.move_to_joint_positions(place_position_blue)
                     else:
                         compl_mov_color = arm_client.move_to_joint_positions(place_position_blue)

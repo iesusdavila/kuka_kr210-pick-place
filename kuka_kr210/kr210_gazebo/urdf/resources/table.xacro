@@ -94,12 +94,12 @@
   </xacro:macro>
 
   <!-- Table for red box -->
-  <xacro:table name_table="red" top_length="1.0" top_width="0.5" top_height="0.075" leg_radius="0.06" leg_height="0.5" pos_x="2.5" pos_y="0" rot_z="1.5708"/>
+  <xacro:table name_table="red" top_length="1.0" top_width="0.5" top_height="0.075" leg_radius="0.06" leg_height="0.5" pos_x="2.45" pos_y="0" rot_z="1.5708"/>
 
   <!-- Table for green box -->
-  <xacro:table name_table="green" top_length="1.0" top_width="0.5" top_height="0.075" leg_radius="0.06" leg_height="0.5" pos_x="-2.5" pos_y="0" rot_z="1.5708"/>
+  <xacro:table name_table="green" top_length="1.0" top_width="0.5" top_height="0.075" leg_radius="0.06" leg_height="0.5" pos_x="-2.45" pos_y="0" rot_z="1.5708"/>
 
   <!-- Table for blue box -->
-  <xacro:table name_table="blue" top_length="1.0" top_width="0.5" top_height="0.075" leg_radius="0.06" leg_height="0.5" pos_x="0" pos_y="2.5" rot_z="0.0"/>
+  <xacro:table name_table="blue" top_length="1.0" top_width="0.5" top_height="0.075" leg_radius="0.06" leg_height="0.5" pos_x="0" pos_y="2.45" rot_z="0.0"/>
 
 </robot>
