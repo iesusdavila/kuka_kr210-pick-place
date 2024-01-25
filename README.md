@@ -39,7 +39,14 @@ sudo apt install ros-noetic-moveit*
 sudo apt install git
 ~~~
 
+## Clone the current repository to test the project
 
+~~~
+cd ~/catkin_ws/src
+git clone https://github.com/iesusdavila/kuka_kr210-pick-place.git
+cd ~/catkin_ws
+catkin_make
+~~~
 
 ## Simulation
 
